@@ -21,8 +21,10 @@ from scipy import spatial
 from scipy.cluster.hierarchy import dendrogram, linkage
 import itertools
 
+HIDDEN_SIZE = 15
+
 # specify log file
-logfile = '../logdirs/logdir_001/runlog_0.pkl'
+logfile = '../logdirs/logdir_002/runlog_0.pkl'
 
 # load results
 with open(logfile, 'rb') as f:
@@ -56,17 +58,23 @@ def pull_item_activations(epoch_results, layer_name):
     return out
 
 def compute_mean_activation_pattern(item_names_to_activations, item_names):
-    return np.mean(np.stack([item_names_to_activations[item] for item in item_names]), 0)
+    intersection_item_names = [name for name in item_names if name in 
+            item_names_to_activations.keys()]
+    try:
+        return np.mean(np.stack([item_names_to_activations[item] for item in 
+            intersection_item_names]), 0)
+    except ValueError:
+        return np.zeros(HIDDEN_SIZE)
 
 
 # Euclidean distance between mean activation pattern for category 1 and mean activation pattern for category 2
 def plot_pairwise_dists(results):
-    categories_to_members = {"plants": ["pine", "oak", "rose", "daisy"],
-                           "animals": ["robin", "canary", "sunfish", "salmon"],
-                           "birds": ["canary", "robin"],
-                           "fish": ["sunfish", "salmon"],
-                           "trees": ["pine", "oak"],
-                           "flowers": ["rose", "daisy"],
+    categories_to_members = {"plants": ["plant", "tree", "flower", "pine", "oak", "rose", "daisy"],
+                           "animals": ["animal", "bird", "fish", "robin", "canary", "sunfish", "salmon"],
+                           "birds": ["bird", "canary", "robin"],
+                           "fish": ["fish", "sunfish", "salmon"],
+                           "trees": ["tree", "pine", "oak"],
+                           "flowers": ["flower", "rose", "daisy"],
                            "robin": ["robin"],
                            "canary": ["canary"],
                            "pine": ["pine"],
@@ -194,7 +202,7 @@ def svd():
 
 #plot_pairwise_dists(results)
 #create_activation_bar_plots(550)
-#create_dendrogram(3000)
+#create_dendrogram(4000)
 #svd()
 #plt.savefig('00_3000_dendogram.png')
 plt.show()

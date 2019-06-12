@@ -16,7 +16,9 @@ def read_in_csv(data_fname):
         return d
     
 class Dataset(object):
-    def __init__(self, data_fname="data.csv"):
+    # items_to_consider=None means all
+    def __init__(self, data_fname="data.csv", items_to_consider=None):
+        self.items_to_consider = items_to_consider
         self.train_data = self.format_dataset(read_in_csv(data_fname))
         self.train_size = len(self.train_data["names"])
         self.test_data = self.train_data
@@ -54,19 +56,20 @@ class Dataset(object):
 
         # package
         for training_item in d_in:
-            d["inputs"]["item"].append(self.name_to_one_hot(
-                                            training_item["item"], "item"))
-            d["inputs"]["relation"].append(self.name_to_one_hot(
-                                            training_item["relation"], "relation"))
-            positive_attributes = []
-            for k in self.attribute_names_to_inds.keys():
-                if bool(int(training_item[k])):
-                    positive_attributes.append(k)
-            d["targets"].append(self.attributes_to_binary_pattern(positive_attributes))
-            d["names"].append("{} {}".format(training_item["item"], # for visualization GUI only
-                                             training_item["relation"]))
-            d["item_names"].append(training_item["item"])
-            d["relation_names"].append(training_item["relation"])
+            if (self.items_to_consider is None) or (training_item["item"] in self.items_to_consider):
+                d["inputs"]["item"].append(self.name_to_one_hot(
+                                                training_item["item"], "item"))
+                d["inputs"]["relation"].append(self.name_to_one_hot(
+                                                training_item["relation"], "relation"))
+                positive_attributes = []
+                for k in self.attribute_names_to_inds.keys():
+                    if bool(int(training_item[k])):
+                        positive_attributes.append(k)
+                d["targets"].append(self.attributes_to_binary_pattern(positive_attributes))
+                d["names"].append("{} {}".format(training_item["item"], # for visualization GUI only
+                                                 training_item["relation"]))
+                d["item_names"].append(training_item["item"])
+                d["relation_names"].append(training_item["relation"])
         return d
     
     def name_to_one_hot(self, name, input_type):

@@ -22,7 +22,7 @@ def main():
     freeze_output_layer_biases = True # True
     
     # create dataset
-    data_fname = "data/data.csv"
+    data_fname = "data/data_00/data.csv"
     dataset = d_m.Dataset(data_fname=data_fname)
     
     # create model
@@ -57,7 +57,7 @@ def main():
                       stopping_criterion=stopping_criterion,
                       learning_rate=learning_rate, 
                       save_dir=save_dir,
-                      test_freq=10,
+                      test_freq=50,
                       print_freq=100,
                       show_plot=True)
     trainer.train()

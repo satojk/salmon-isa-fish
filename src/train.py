@@ -115,6 +115,7 @@ class Trainer(object):
         if self.show_plot:
             self.plot_loss()
             self.plot_acc()
+            plt.show()
         self.save_results()
         self.save_checkpoint(epoch)
 

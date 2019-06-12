@@ -22,7 +22,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 import itertools
 
 # specify log file
-logfile = 'logdirs/logdir_000/runlog_0.pkl'
+logfile = '../logdirs/logdir_000/runlog_0.pkl'
 
 # load results
 with open(logfile, 'rb') as f:
@@ -188,3 +188,10 @@ def svd():
     plt.xticks(rotation=90)
 
     # We could reconstruct the input-output correlation marix with np.matmul(np.matmul(u, np.diag(s)), vh)
+
+#plot_pairwise_dists(results)
+#create_activation_bar_plots(550)
+#create_dendrogram(3000)
+#svd()
+#plt.savefig('00_3000_dendogram.png')
+plt.show()

@@ -22,7 +22,7 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 import itertools
 
 # specify log file
-logfile = '../logdirs/logdir_000/runlog_0.pkl'
+logfile = '../logdirs/logdir_001/runlog_0.pkl'
 
 # load results
 with open(logfile, 'rb') as f:
@@ -133,10 +133,13 @@ def create_dendrogram(epoch):
     
     # pull activations
     item_names_to_activations = pull_item_activations(r, "representation_layer")
-    labels = list(item_names_to_activations.keys())
+    # order labels to match Fig 4a
+    labels = ["pine", "oak", "rose", "daisy",
+                      "robin", "canary", "sunfish", "salmon"]
     
     # perform hierarchical clustering
-    activations_as_array = np.stack(item_names_to_activations.values())
+    activations_as_array = np.stack({l: item_names_to_activations[l]
+                                        for l in labels}.values())
     Z = linkage(activations_as_array, method="ward")
 
     # create dendrogram

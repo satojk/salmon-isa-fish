@@ -22,7 +22,7 @@ def main():
     freeze_output_layer_biases = True # True
     
     # create dataset
-    data_fname = "data/data_00/data.csv"
+    data_fname = "data/data_01/data.csv"
     dataset = d_m.Dataset(data_fname=data_fname)
     
     # create model

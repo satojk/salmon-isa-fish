@@ -30,14 +30,11 @@ def main():
     data_fname = "data/data_01/data.csv"
 
     new_items = [[],
-                 ["tree", "flower", "fish", "bird"],
-                 ["oak", "pine", "daisy", "rose", "sunfish", "salmon",
-                     "canary", "robin"]]
+                 []]
     for ix, items_to_consider in enumerate([
-            ["plant", "animal"],
-            ["plant", "animal", "tree", "flower", "fish", "bird"],
+            ["plant", "tree", "flower", "oak", "pine", "daisy", "rose"],
             None]):
-        num_training_epochs = [1500, 2750, 4000][ix]
+        num_training_epochs = [2000, 4000][ix]
         dataset = d_m.Dataset(data_fname=data_fname, items_to_consider=items_to_consider)
         
         # create model

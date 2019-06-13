@@ -21,10 +21,10 @@ class Dataset(object):
         self.items_to_consider = items_to_consider
         self.train_data = self.format_dataset(read_in_csv(data_fname))
         self.train_size = len(self.train_data["names"])
-        self.test_data = self.train_data
+        self.test_data = self.format_dataset(read_in_csv(data_fname), test=True)
         self.test_size = len(self.test_data["names"])
         
-    def format_dataset(self, d_in):
+    def format_dataset(self, d_in, test=False):
         d = {"inputs": {"item": [], # list of items, where each item is a num_items one-hot tensor
                         "relation": []}, # list of relations as num_relations one-hot tensor
              "targets": [], # list of targets, where each target is a num_attribues binary tensor
@@ -56,7 +56,7 @@ class Dataset(object):
 
         # package
         for training_item in d_in:
-            if (self.items_to_consider is None) or (training_item["item"] in self.items_to_consider):
+            if (self.items_to_consider is None) or (training_item["item"] in self.items_to_consider) or (test):
                 d["inputs"]["item"].append(self.name_to_one_hot(
                                                 training_item["item"], "item"))
                 d["inputs"]["relation"].append(self.name_to_one_hot(

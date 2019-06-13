@@ -203,14 +203,14 @@ class Trainer(object):
             # Here, we call the backward method in order to compute gradients for
             # visualization purposes. In your models, do NOT do this during test
             # evaluation! It can lead to training on the test set. 
-            test_loss.backward()
+            #test_loss.backward()
 
-            info["loss"][i] = test_loss.data.numpy()
-            info["loss_sum"] += test_loss.data.numpy()
+            #info["loss"][i] = test_loss.data.numpy()
+            #info["loss_sum"] += test_loss.data.numpy()
             
             # reverse to correspond to the forward direction
-            self.model.gnet.reverse()
-            self.model.gact.reverse()
+            #self.model.gnet.reverse()
+            #self.model.gact.reverse()
 
             # update info dict
             for j in range(len(self.model.linear_layers)):
@@ -228,17 +228,17 @@ class Trainer(object):
                 update("input_", self.model.layer_inputs[j])
                 update("net", self.model.layer_outputs[j])
                 update("act", self.model.layer_activations[j])
-                update("gweights", self.model.linear_layers[j].weight.grad, expand=True)
-                if not self.model.linear_layers[j].bias.requires_grad:
-                    update("gbiases", torch.zeros(self.model.linear_layers[j].bias.data.shape)) 
-                else:
-                    update("gbiases", self.model.linear_layers[j].bias.grad, expand=True)
-                update("gnet", self.model.gnet[j])
-                update("gact", self.model.gact[j])
+                #update("gweights", self.model.linear_layers[j].weight.grad, expand=True)
+                #if not self.model.linear_layers[j].bias.requires_grad:
+                    #update("gbiases", torch.zeros(self.model.linear_layers[j].bias.data.shape)) 
+                #else:
+                    #update("gbiases", self.model.linear_layers[j].bias.grad, expand=True)
+                #update("gnet", self.model.gnet[j])
+                #update("gact", self.model.gact[j])
                     
-        for layer_name in self.model.layer_names:
-            info[layer_name]["sgweights"] = np.sum(info[layer_name]["gweights"] , 0)
-            info[layer_name]["sgbiases"] = np.sum(info[layer_name]["gbiases"] , 0)
+        #for layer_name in self.model.layer_names:
+            #info[layer_name]["sgweights"] = np.sum(info[layer_name]["gweights"] , 0)
+            #info[layer_name]["sgbiases"] = np.sum(info[layer_name]["gbiases"] , 0)
 
         if print_info:
             print("\n------------------------")

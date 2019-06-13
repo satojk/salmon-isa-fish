@@ -24,7 +24,7 @@ import itertools
 HIDDEN_SIZE = 15
 
 # specify log file
-logfile = '../logdirs/logdir_010/runlog_0.pkl'
+logfile = '../logdirs/logdir_011/runlog_0.pkl'
 
 # load results
 with open(logfile, 'rb') as f:
@@ -104,6 +104,8 @@ def plot_pairwise_dists(results):
             try:
                 eucl_dist = spatial.distance.euclidean(category1_mean_activations,
                                                        category2_mean_activations)
+                cos_dist = spatial.distance.cosine(category1_mean_activations,
+                                                    category2_mean_activations)
             except ValueError:
                 eucl_dist = 0
             

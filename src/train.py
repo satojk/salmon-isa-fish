@@ -81,6 +81,7 @@ class Trainer(object):
         self.setup()
         self.inherit_weights()
         self.add_units(representation_units_to_add)
+        self.re_initialize_optimizer()
 
     def inherit_weights(self):
         for new_item in self.new_items:
@@ -89,6 +90,10 @@ class Trainer(object):
             self.model.copy_weights_to_rep(
                     self.dataset.item_names_to_inds[self.parent_items[new_item]],
                     self.dataset.item_names_to_inds[new_item])
+
+    def re_initialize_optimizer(self):
+        self.optimizer = optim.SGD([p for p in self.model.parameters() if p.requires_grad],
+                                    lr=self.learning_rate, momentum=0.)
 
     def add_units(self, representation_units_to_add):
         if representation_units_to_add:

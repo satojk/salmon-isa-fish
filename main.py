@@ -29,6 +29,10 @@ def main():
     # create dataset
     data_fname = "data/data_01/data.csv"
 
+    new_items = [[],
+                 ["tree", "flower", "fish", "bird"],
+                 ["oak", "pine", "daisy", "rose", "sunfish", "salmon",
+                     "canary", "robin"]]
     for ix, items_to_consider in enumerate([
             ["plant", "animal"],
             ["plant", "animal", "tree", "flower", "fish", "bird"],
@@ -65,7 +69,8 @@ def main():
                           save_dir=save_dir,
                           test_freq=50,
                           print_freq=100,
-                          show_plot=True)
+                          show_plot=True,
+                          new_items=new_items[ix])
         trainer.train()
     
 if __name__ == '__main__':

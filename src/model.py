@@ -53,6 +53,12 @@ class Model(nn.Module):
                 layer.bias.requires_grad = False
         else:
             layer.bias.data.uniform_(wrange[0], wrange[1])
+
+    def copy_weights_to_rep(self, unit_from, unit_to):
+        with torch.no_grad():
+            for ix, receiving_unit in enumerate(self.linear_layers[0].weight):
+                self.linear_layers[0].weight[ix][unit_to] = self.linear_layers[0].weight[ix][unit_from]
+
             
     def print_model_layers(self):
         print("\nModel linear layers:")

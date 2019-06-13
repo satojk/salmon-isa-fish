@@ -24,7 +24,7 @@ import itertools
 HIDDEN_SIZE = 15
 
 # specify log file
-logfile = '../logdirs/logdir_002/runlog_0.pkl'
+logfile = '../logdirs/logdir_003/runlog_0.pkl'
 
 # load results
 with open(logfile, 'rb') as f:

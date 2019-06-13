@@ -32,7 +32,7 @@ def main():
     new_items = [[],
                  [],
                  []]
-    representation_units_to_add = [0, 0, 0]
+    representation_units_to_add = [0, 4, 3]
 
     for ix, items_to_consider in enumerate([
             ["oak", "pine", "daisy", "rose", "robin", "canary", "salmon", "sunfish"],
@@ -45,7 +45,7 @@ def main():
         # some model and train params are locked to dataset params
         item_input_size = len(dataset.item_names_to_inds)
         relation_input_size = len(dataset.relation_names_to_inds)
-        representation_size = 14 + sum(representation_units_to_add[:ix])
+        representation_size = 7 + sum(representation_units_to_add[:ix])
         hidden_size = 15 # 15
         output_size = len(dataset.attribute_names_to_inds)
         

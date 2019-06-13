@@ -29,19 +29,24 @@ def main():
     # create dataset
     data_fname = "data/data_01/data.csv"
 
-    new_items = [[],
-                 []]
+    #new_items = [[],
+                 #["tree", "flower", "fish", "bird"],
+                 #["oak", "pine", "daisy", "rose", "sunfish", "salmon",	"canary", "robin"]]
+    new_items = [[], [], []]
+    representation_units_to_add = [0, 4, 3]
+
     for ix, items_to_consider in enumerate([
-            ["plant", "tree", "flower", "oak", "pine", "daisy", "rose"],
+            ["plant", "animal"],
+            ["plant", "animal", "tree", "flower", "bird", "fish"],
             None]):
-        num_training_epochs = [2000, 4000][ix]
+        num_training_epochs = [1500, 2750, 4000][ix]
         dataset = d_m.Dataset(data_fname=data_fname, items_to_consider=items_to_consider)
         
         # create model
         # some model and train params are locked to dataset params
         item_input_size = len(dataset.item_names_to_inds)
         relation_input_size = len(dataset.relation_names_to_inds)
-        representation_size = item_input_size
+        representation_size = 7 + sum(representation_units_to_add[:ix])
         hidden_size = 15 # 15
         output_size = len(dataset.attribute_names_to_inds)
         
@@ -67,7 +72,8 @@ def main():
                           test_freq=50,
                           print_freq=100,
                           show_plot=True,
-                          new_items=new_items[ix])
+                          new_items=new_items[ix],
+                          representation_units_to_add=representation_units_to_add[ix])
         trainer.train()
     
 if __name__ == '__main__':

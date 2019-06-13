@@ -36,7 +36,8 @@ class Trainer(object):
                  checkpoint_freq=200, 
                  print_freq=0, show_plot=False,
                  save_dir=None,
-                 new_items=None):
+                 new_items=None,
+                 representation_units_to_add=0):
         self.new_items = new_items
         self.parent_items = {
                 "flower": "plant",
@@ -79,6 +80,7 @@ class Trainer(object):
         self.show_plot = show_plot
         self.setup()
         self.inherit_weights()
+        self.add_units(representation_units_to_add)
 
     def inherit_weights(self):
         for new_item in self.new_items:
@@ -87,6 +89,10 @@ class Trainer(object):
             self.model.copy_weights_to_rep(
                     self.dataset.item_names_to_inds[self.parent_items[new_item]],
                     self.dataset.item_names_to_inds[new_item])
+
+    def add_units(self, representation_units_to_add):
+        if representation_units_to_add:
+            self.model.add_representation_units(representation_units_to_add)
         
     def setup(self):
         if self.save_dir is None:

@@ -14,6 +14,11 @@ class Model(nn.Module):
                  output_layer_bias_val=-2.,
                  freeze_output_layer_biases=True):
         super(Model, self).__init__()
+        self.item_input_size = item_input_size
+        self.relation_input_size = relation_input_size
+        self.representation_size = representation_size
+        self.hidden_size = hidden_size
+        self.wrange = wrange
         # specify network layers
         self.linear_layers = nn.ModuleList(
                                 [nn.Linear(item_input_size, representation_size),
@@ -53,6 +58,27 @@ class Model(nn.Module):
                 layer.bias.requires_grad = False
         else:
             layer.bias.data.uniform_(wrange[0], wrange[1])
+
+    def add_representation_units(self, n):
+        print("Going from {} to {} representation units".format(self.representation_size, self.representation_size + n))
+        previous_weights = [self.linear_layers[0].weight.data,
+                            self.linear_layers[1].weight.data]
+        new_weights_in = torch.FloatTensor(n, self.item_input_size).uniform_(self.wrange[0], self.wrange[1])
+        new_weights_out = torch.FloatTensor(self.hidden_size, n).uniform_(self.wrange[0], self.wrange[1])
+        new_biases = torch.FloatTensor(n).uniform_(self.wrange[0], self.wrange[1])
+
+        new_weights_in = torch.cat((new_weights_in, previous_weights[0]), dim=0)
+        new_weights_out = torch.cat((new_weights_out, previous_weights[1]), dim=1)
+        new_biases = torch.cat((new_biases, self.linear_layers[0].bias.data), dim=0)
+
+        self.linear_layers[0] = nn.Linear(self.item_input_size, self.representation_size + n)
+        self.linear_layers[1] = nn.Linear(self.representation_size + self.relation_input_size + n, self.hidden_size)
+
+        with torch.no_grad():
+            self.linear_layers[0].weight = nn.Parameter(new_weights_in)
+            self.linear_layers[1].weight = nn.Parameter(new_weights_out)
+            self.linear_layers[0].bias = nn.Parameter(new_biases)
+
 
     def copy_weights_to_rep(self, unit_from, unit_to):
         with torch.no_grad():

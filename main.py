@@ -29,10 +29,9 @@ def main():
     # create dataset
     data_fname = "data/data_01/data.csv"
 
-    #new_items = [[],
-                 #["tree", "flower", "fish", "bird"],
-                 #["oak", "pine", "daisy", "rose", "sunfish", "salmon",	"canary", "robin"]]
-    new_items = [[], [], []]
+    new_items = [[],
+                 ["tree", "flower", "fish", "bird"],
+                 ["oak", "pine", "daisy", "rose", "sunfish", "salmon",	"canary", "robin"]]
     representation_units_to_add = [0, 4, 3]
 
     for ix, items_to_consider in enumerate([

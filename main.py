@@ -30,20 +30,22 @@ def main():
     data_fname = "data/data_01/data.csv"
 
     new_items = [[],
+                 [],
                  []]
-    representation_units_to_add = [0, 7]
+    representation_units_to_add = [0, 0, 0]
 
     for ix, items_to_consider in enumerate([
-            ["plant", "tree", "flower", "oak", "pine", "daisy", "rose"],
+            ["oak", "pine", "daisy", "rose", "robin", "canary", "salmon", "sunfish"],
+            ["oak", "pine", "daisy", "rose", "robin", "canary", "salmon", "sunfish", "tree", "flower", "fish", "bird"],
             None]):
-        num_training_epochs = [2000, 4000][ix]
+        num_training_epochs = [1500, 2750, 4000][ix]
         dataset = d_m.Dataset(data_fname=data_fname, items_to_consider=items_to_consider)
         
         # create model
         # some model and train params are locked to dataset params
         item_input_size = len(dataset.item_names_to_inds)
         relation_input_size = len(dataset.relation_names_to_inds)
-        representation_size = 7 + sum(representation_units_to_add[:ix])
+        representation_size = 14 + sum(representation_units_to_add[:ix])
         hidden_size = 15 # 15
         output_size = len(dataset.attribute_names_to_inds)
         
